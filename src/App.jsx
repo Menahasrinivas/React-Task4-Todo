@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import Card from './components/Cards';
 import Edit from './components/Edit';
 
-function TopBar({ todo, setTodo, completed, setCompleted }) {
+function App({ todo, setTodo, completed, setCompleted }) {
   let [title, setTitle] = useState('');
   let [description, setDescription] = useState('');
   let [selectedTodo, setSelectedTodo] = useState(null);
 
   const handleDrop = (e) => {
-    let gotcha = e.target.innerText;
-    setCompleted(gotcha === 'Completed' ? 'Not Completed' : 'Completed');
+    setCompleted((prevStatus) =>
+      prevStatus === 'Completed' ? 'Not Completed' : 'Completed'
+    );
   };
 
   const handleClick = () => {
@@ -97,7 +98,7 @@ function TopBar({ todo, setTodo, completed, setCompleted }) {
       <div className="container">
         <div className="row">
           {todo.map((e, i) => (
-            <Card
+            <Cards
               key={i}
               completed={completed}
               setCompleted={setCompleted}
@@ -125,4 +126,4 @@ function TopBar({ todo, setTodo, completed, setCompleted }) {
   );
 }
 
-export default TopBar;
+export default App;
