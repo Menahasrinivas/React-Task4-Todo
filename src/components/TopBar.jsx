@@ -1,15 +1,30 @@
-import React, { useState } from 'react';
-import Card from './Card';
+import React, { useState, useEffect } from 'react';
+import Cards from './Cards';
 import Edit from './Edit';
 
 function TopBar({ todo, setTodo, completed, setCompleted }) {
-  let [title, setTitle] = useState('');
-  let [description, setDescription] = useState('');
-  let [selectedTodo, setSelectedTodo] = useState(null);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [selectedTodo, setSelectedTodo] = useState(null);
+  const [filteredTodo, setFilteredTodo] = useState([]);
 
-  const handleDrop = (e) => {
-    let gotcha = e.target.innerText;
-    setCompleted(gotcha === 'Completed' ? 'Not Completed' : 'Completed');
+  useEffect(() => {
+    if (completed === 'All') {
+      setFilteredTodo(todo);
+    } else {
+      const filtered = todo.filter((task) =>
+        completed === 'Completed' ? task.status : !task.status
+      );
+      setFilteredTodo(filtered);
+    }
+  }, [todo, completed]);
+
+  const handleDrop = (selectedStatus) => {
+    setCompleted(selectedStatus);
+  };
+
+  const getButtonColor = (status) => {
+    return status === completed ? 'btn-success' : 'btn-danger';
   };
 
   const handleClick = () => {
@@ -21,23 +36,28 @@ function TopBar({ todo, setTodo, completed, setCompleted }) {
       );
       setSelectedTodo(null);
     } else {
-      let id = todo.length ? todo[todo.length - 1].id + 1 : 1;
-      let newArray = [...todo];
-      newArray.push({
-        id,
-        title,
-        description,
-      });
+      const id = todo.length ? todo[todo.length - 1].id + 1 : 1;
+      const newArray = [
+        ...todo,
+        { id, title, description, status: completed === 'Completed' },
+      ];
       setTodo(newArray);
     }
 
     setTitle('');
     setDescription('');
+    setCompleted('All');
+  };
+
+  const defaultStatus = 'All';
+
+  const handleDropdownClick = (e) => {
+    e.stopPropagation();
   };
 
   return (
     <>
-      <h1 className="text-center HeaderColor">My Todo App</h1>
+      <h1 className="text-center HeaderColor">My Todo</h1>
       <div className="container overflow-hidden text-center">
         <div className="row gx-5">
           <div className="col">
@@ -76,28 +96,40 @@ function TopBar({ todo, setTodo, completed, setCompleted }) {
             Status Filter :{' '}
             <span>
               {' '}
-              <div className="btn-group">
-                <button
-                  className="btn btn-success btn-sm dropdown-toggle"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  {completed}
-                </button>
-                <ul className="dropdown-menu">
-                  <a onClick={handleDrop}>Completed</a>
-                  <a onClick={handleDrop}>Not Completed</a>
-                </ul>
-              </div>
+              <div className="btn-group" onClick={handleDropdownClick}>
+        <button
+          className={`btn btn-sm dropdown-toggle ${getButtonColor(defaultStatus)}`}
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          {completed}
+        </button>
+        <ul className="dropdown-menu">
+          <li>
+            <button className="btn btn-sm" onClick={() => handleDrop(defaultStatus)}>
+              {defaultStatus}
+            </button>
+          </li>
+          <li>
+            <button className="btn btn-sm" onClick={() => handleDrop('Completed')}>
+              Completed
+            </button>
+          </li>
+          <li>
+            <button className="btn btn-sm" onClick={() => handleDrop('Not Completed')}>
+              Not Completed
+            </button>
+          </li>
+        </ul>
+      </div>
             </span>
           </h4>
         </div>
       </div>
       <div className="container">
         <div className="row">
-          {todo.map((e, i) => (
-            <Card
+          {filteredTodo.map((e, i) => (
+            <Cards
               key={i}
               completed={completed}
               setCompleted={setCompleted}

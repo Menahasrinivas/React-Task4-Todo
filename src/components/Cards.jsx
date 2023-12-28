@@ -1,24 +1,42 @@
 import React from 'react';
 import Edit from './Edit';
 
-function Cards({ todo, setTodo, completed, setCompleted, onEdit }) {
-  let Delete = () => {
-    setTodo((prevTodo) =>
-      prevTodo.filter((item) => item.id !== todo.id)
+function Cards({ todo, setTodo, onEdit }) {
+  const Delete = () => {
+    setTodo((prevTodo) => prevTodo.filter((item) => item.id !== todo.id));
+  };
+
+  const setTodoStatus = (status) => {
+    setTodo((prevTodos) =>
+      prevTodos.map((t) =>
+        t.id === todo.id ? { ...t, status } : t
+      )
     );
+
+    const dropdownButton = document.getElementById(`dropdownButton-${todo.id}`);
+    if (dropdownButton) {
+      dropdownButton.click();
+    }
+  };
+
+  const getStatusColor = (status) => {
+    return status ? 'btn-success' : 'btn-danger';
   };
 
   return (
-    <div className="col-10 col-lg-4 col-md-5 mx-auto">
+    <div className="col">
       <div className="card" style={{ width: '18rem', fontWeight: 500, margin: 10 }}>
         <div className="card-body">
-          <h5 className="card-title">Name:{todo.title}</h5>
+          <h5 className="card-title">Name: {todo.title}</h5>
 
-          <p className="card-text">Description:{todo.description}</p>
+          <p className="card-text">Description: {todo.description}</p>
           <div className="btn-group">
             Status &nbsp;
             <button
-              className="btn btn-secondary btn-sm dropdown-toggle"
+              id={`dropdownButton-${todo.id}`}
+              className={`btn btn-secondary btn-sm dropdown-toggle ${getStatusColor(
+                todo.status
+              )}`}
               type="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
@@ -26,8 +44,18 @@ function Cards({ todo, setTodo, completed, setCompleted, onEdit }) {
               {todo.status ? 'Completed' : 'Not Completed'}
             </button>
             <ul className="dropdown-menu">
-              <li>Completed</li>
-              <li>Not Completed</li>
+              <li
+                className={`dropdown-item ${getStatusColor(true)}`}
+                onClick={() => setTodoStatus(true)}
+              >
+                Completed
+              </li>
+              <li
+                className={`dropdown-item ${getStatusColor(false)}`}
+                onClick={() => setTodoStatus(false)}
+              >
+                Not Completed
+              </li>
             </ul>
           </div>
         </div>

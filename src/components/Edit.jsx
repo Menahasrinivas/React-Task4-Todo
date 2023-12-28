@@ -9,7 +9,6 @@ function Edit({ title, setTitle, description, setDescription, onClick }) {
         <input
           type="text"
           value={title}
-          placeholder='Ur Name'
           onChange={(e) => setTitle(e.target.value)}
           style={{ width: '50%', padding: '8px', marginBottom: 10 }}
         />
@@ -19,7 +18,6 @@ function Edit({ title, setTitle, description, setDescription, onClick }) {
         <input
           type="text"
           value={description}
-          placeholder='Ur Description'
           onChange={(e) => setDescription(e.target.value)}
           style={{ width: '50%', padding: '8px', marginBottom: 10 }}
         />
