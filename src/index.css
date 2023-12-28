@@ -1,24 +1,27 @@
-body{
-  background-color: white;
-  background-attachment: fixed;
-}
-.card{
- background-color: green ;
-}
-/* select button color change */
-.not-complete{
-  background-color: red;
-}
-.not-complete{
-  background-color: red;
+.HeaderColor{
+  color:aqua;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bolder;
 }
 input{
-  width: 100%;
   border-radius: 10px;
-  border: 1px solid #767676;
-  padding: 5px;
- 
+  height:50px;
+  width: 200px;
+  text-align: center;
 }
-input:focus{
-  outline: 3px solid skyblue;
+button{
+  background-color:black;
+  color: white;
+  padding: 10px;
+  width: 20vh;
+  border-radius: 10px;
+  font-weight: bolder;
+  margin: 0em 3em 1em 3em;
+}
+.card{
+  background-color: black;
+  color: white;
+}
+.content{
+  font-size: 19px;
 }
