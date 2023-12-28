@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Card from './Card';
-import Edit from './Edit';
+import Card from './components/Cards';
+import Edit from './components/Edit';
 
 function TopBar({ todo, setTodo, completed, setCompleted }) {
   let [title, setTitle] = useState('');
