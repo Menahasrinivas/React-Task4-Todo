@@ -98,7 +98,7 @@ function App({ todo, setTodo, completed, setCompleted }) {
       <div className="container">
         <div className="row">
           {todo.map((e, i) => (
-            <Cards
+            <Card
               key={i}
               completed={completed}
               setCompleted={setCompleted}
