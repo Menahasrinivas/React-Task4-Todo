@@ -1,3 +1,3 @@
-# React + Vite
+# Todo
 
-React Todo app.
+React Todo app with CRUD.
